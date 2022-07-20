@@ -34,18 +34,18 @@ def encrypt(f: TextIOWrapper, e: TextIOWrapper, d: TextIOWrapper):
     d.close()
 
 def decrypt(f: TextIOWrapper, d: TextIOWrapper, l: TextIOWrapper):
-    d_nib = d.read(BYTES_PER_SEGMENT)
-    f_nib = f.read(BYTES_PER_SEGMENT)
+    d_nib = d.read(1)
+    f_nib = f.read(1)
     while True:
         if not d_nib or not f_nib:
             break
         d_nib_int = int.from_bytes(d_nib, "big")
         f_nib_int = int.from_bytes(f_nib, "big")
         denc_nib = d_nib_int ^ f_nib_int
-        denc_bytes = int.to_bytes(denc_nib, BYTES_PER_SEGMENT, "big")
+        denc_bytes = int.to_bytes(denc_nib, 1, "big")
 
-        d_nib = d.read(BYTES_PER_SEGMENT)
-        f_nib = f.read(BYTES_PER_SEGMENT)
+        d_nib = d.read(1)
+        f_nib = f.read(1)
 
         if not d_nib:
             denc_bytes = denc_bytes.lstrip(b"\0")
